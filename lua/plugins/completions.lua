@@ -4,9 +4,7 @@ local has_words_before = function()
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-
 return {
-  -- TODO: checking
 	{
 		"hrsh7th/cmp-nvim-lsp",
 		event = { "BufReadPre", "BufNewFile" },
@@ -17,26 +15,47 @@ return {
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
+			"hrsh7th/cmp-cmdline",
 		},
 	},
 	{
 		"hrsh7th/nvim-cmp",
 		event = { "BufReadPre", "BufNewFile" },
+
+		-- rust crates tool
+		dependencies = {
+			{
+				"Saecki/crates.nvim",
+				event = { "BufRead Cargo.toml" },
+				opts = {
+					src = {
+						cmp = { enabled = true },
+					},
+				},
+			},
+		},
+
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
 
 			cmp.setup({
+
+				-- snippet
 				snippet = {
 					expand = function(args)
 						require("luasnip").lsp_expand(args.body)
 					end,
 				},
+
+				-- window
 				window = {
 					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
 				},
+
+				-- mapping
 				mapping = cmp.mapping.preset.insert({
 
 					["<Tab>"] = cmp.mapping(function(fallback)
@@ -64,13 +83,40 @@ return {
 					end, { "i", "s" }),
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
 				}),
+
+				-- sources
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" }, -- For luasnip users.
 				}, {
 					{ name = "buffer" },
+				}),
+			})
+
+			-- cmdline setup
+
+			-- `/` cmdline setup.
+			cmp.setup.cmdline("/", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			-- `:` cmdline setup.
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "path" },
+				}, {
+					{
+						name = "cmdline",
+						option = {
+							ignore_cmds = { "Man", "!" },
+						},
+					},
 				}),
 			})
 		end,

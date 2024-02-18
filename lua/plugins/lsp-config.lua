@@ -28,6 +28,7 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"pyright",
+          "ruff_lsp",
 					"tsserver",
 					"rust_analyzer",
 				},
@@ -53,6 +54,10 @@ return {
 			lspconfig.pyright.setup({
 				capabilities = capabilities,
 			})
+
+      lspconfig.ruff_lsp.setup({
+        capabilities = capabilities,
+      })
 
 			-- js/ts
 			lspconfig.tsserver.setup({

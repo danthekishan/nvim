@@ -24,7 +24,7 @@ local opts = {
 		lazy = true,
 	},
 	install = {
-		colorscheme = { "rose-pine" },
+		colorscheme = { "tokyonight-moon" },
 	},
 	rtp = {
 		disabled_plugins = {
@@ -47,7 +47,7 @@ local opts = {
 require("lazy").setup(plugins, opts)
 
 -- colorsheme
-vim.cmd("colorscheme rose-pine")
+vim.cmd("colorscheme tokyonight-moon")
 
 -- which key
 require("dan.remap")

@@ -34,7 +34,7 @@ opt.isfname:append("@-@")
 opt.updatetime = 50
 opt.backspace = "indent,eol,start"
 opt.splitright = true
-opt.splitbelow = false
+opt.splitbelow = true
 opt.iskeyword:append("-")
 opt.clipboard:append("unnamedplus")
 opt.modifiable = true
