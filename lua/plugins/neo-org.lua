@@ -2,7 +2,8 @@ return {
 	{
 		"nvim-neorg/neorg",
 		build = ":Neorg sync-parsers",
-		event = { "BufReadPre", "BufNewFile" },
+    event = "VeryLazy",
+		-- event = { "BufReadPre", "BufNewFile" },
 		-- tag = "*",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()

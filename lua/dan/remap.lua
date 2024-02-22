@@ -1,19 +1,20 @@
 local wk = require("which-key")
 local tels = require("telescope.builtin")
 local crates = require("crates")
+local chatgpt = require("chatgpt")
 
 -- autocmds
-vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
-  pattern = {"*.norg"},
-  command = "set conceallevel=3"
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+	pattern = { "*.norg" },
+	command = "set conceallevel=3",
 })
 
 -- vim keymaps
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<Tab>", ":tabnext<CR>", opts)
 vim.keymap.set("n", "<S-Tab>", ":tabprev<CR>", opts)
-vim.keymap.set("n", "]b", "<cmd>BufferLineCyclePrev<cr>", opts)
-vim.keymap.set("n", "[b", "<cmd>BufferLineCycleNext<cr>", opts)
+vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", opts)
+vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", opts)
 vim.keymap.set("v", "<Tab>", ">gv", opts)
 vim.keymap.set("v", "<S-Tab>", "<gv", opts)
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
@@ -32,7 +33,19 @@ local normal_mappings = {
 
 	-- g
 	["g"] = {
-    q = {"<cmd>Noice dismiss<CR>", "Dismiss Noice"},
+		a = {
+			function()
+				require("harpoon.mark").add_file()
+			end,
+			"Harpoon Mark",
+		},
+		h = {
+			function()
+				require("harpoon.ui").toggle_quick_menu()
+			end,
+			"Harpoon",
+		},
+		q = { "<cmd>Noice dismiss<CR>", "Dismiss Noice" },
 		d = {
 			function()
 				require("telescope.builtin").lsp_definitions({ reuse_win = true })
@@ -59,19 +72,29 @@ local normal_mappings = {
 	["<leader>a"] = {
 		-- gen nvim (ollama)
 		name = "AI",
-		o = { ":Gen<CR>", "Ollama Gen" },
+		g = { ":Gen<CR>", "Ollama Gen" },
+		c = { "<cmd>ChatGPT<CR>", "ChatGPT" },
+		e = { "<cmd>ChatGPTEditWithInstruction<CR>", "Edit with instruction" },
+		d = { "<cmd>ChatGPTRun docstring<CR>", "Docstring" },
+		a = { "<cmd>ChatGPTRun add_tests<CR>", "Add Tests" },
+		o = { "<cmd>ChatGPTRun optimize_code<CR>", "Optimize Code" },
+		s = { "<cmd>ChatGPTRun summarize<CR>", "Summarize" },
+		f = { "<cmd>ChatGPTRun fix_bugs<CR>", "Fix Bugs" },
+		x = { "<cmd>ChatGPTRun explain_code<CR>", "Explain Code" },
+		r = { "<cmd>ChatGPTRun roxygen_edit<CR>", "Roxygen Edit" },
+		l = { "<cmd>ChatGPTRun code_readability_analysis<CR>", "Code Readability Analysis" },
 	},
 
-  -- neorg
-  ["<leader>n"] = {
-    name = "Neorg",
-    h = {"<cmd>Neorg mode traverse-heading<CR>", "Heading Mode"},
-    n = {"<cmd>Neorg mode norg<CR>", "Norg Mode"},
-    i = {"<cmd>Neorg index<CR>", "Index"},
-    t = {"<cmd>Neorg toc right<CR>", "Toc"},
-    m = {"<cmd>Neorg inject-metadata<CR>", "Add Metadata"},
-    s = {"<cmd>Neorg generate-workspace-summary<CR>", "Add Summary"}
-  },
+	-- neorg
+	["<leader>n"] = {
+		name = "Neorg",
+		h = { "<cmd>Neorg mode traverse-heading<CR>", "Heading Mode" },
+		n = { "<cmd>Neorg mode norg<CR>", "Norg Mode" },
+		i = { "<cmd>Neorg index<CR>", "Index" },
+		t = { "<cmd>Neorg toc right<CR>", "Toc" },
+		m = { "<cmd>Neorg inject-metadata<CR>", "Add Metadata" },
+		s = { "<cmd>Neorg generate-workspace-summary<CR>", "Add Summary" },
+	},
 
 	-- buffers
 	["<leader>b"] = {
@@ -98,7 +121,7 @@ local normal_mappings = {
 	},
 
 	-- explorer
-	["<leader>e"] = { ":Neotree toggle<CR>", "Explorer" },
+	["<leader>e"] = { ":Neotree reveal<CR>", "Explorer" },
 
 	-- telescope
 	["<leader>f"] = {
@@ -239,6 +262,12 @@ local visual_mappings = {
 		-- gen nvim (ollama)
 		name = "AI",
 		o = { ":Gen<CR>", "Ollama Gen" },
+		e = {
+			function()
+				chatgpt.edit_with_instructions()
+			end,
+			"Edit with instructions",
+		},
 	},
 }
 

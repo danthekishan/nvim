@@ -12,6 +12,10 @@ local config = function()
 			"BufNewFile",
 		},
 		ensure_installed = {
+      "go",
+      "gomod",
+      "gowork",
+      "gosum",
 			"rust",
 			"markdown",
 			"json",

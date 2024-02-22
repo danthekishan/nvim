@@ -19,7 +19,7 @@ return {
 	--trouble
 	{
 		"folke/trouble.nvim",
-		event = { "BufReadPre", "BufNewFile" },
+    event = "InsertEnter",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = { use_diagnostic_signs = true },
 	},

@@ -37,7 +37,7 @@ return {
 			local breadcrump_sep = " ⟩ "
 			require("lualine").setup({
 				options = {
-					theme = "tokyonight",
+					theme = "nightfox",
 				},
 				sections = {
 					lualine_c = {
@@ -73,15 +73,28 @@ return {
 	-- 	end,
 	-- },
 
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("tokyonight").setup({
+	-- 			transparent = true,
+	-- 			styles = {
+	-- 				sidebars = "transparent",
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+
 	{
-		"folke/tokyonight.nvim",
+		"EdenEast/nightfox.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			require("tokyonight").setup({
-				transparent = true,
-				styles = {
-					sidebars = "transparent",
+			require("nightfox").setup({
+				options = {
+					transparent = true,
 				},
 			})
 		end,
@@ -101,7 +114,9 @@ return {
 		config = function()
 			require("neo-tree").setup({
 				close_if_last_window = true,
+        popup_border_style = "rounded",
 				window = {
+          position = "float",
 					mappings = {
 						["o"] = "open",
 					},
