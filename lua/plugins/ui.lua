@@ -116,7 +116,7 @@ return {
 				close_if_last_window = true,
         popup_border_style = "rounded",
 				window = {
-          position = "float",
+          -- position = "float",
 					mappings = {
 						["o"] = "open",
 					},
