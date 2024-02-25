@@ -106,7 +106,7 @@ return {
           "stylua",
           "prettierd",
           "ruff",
-          "eslint_d",
+          "black",
           "goimports",
           "gofumpt",
           "gomodifytags",
