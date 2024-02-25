@@ -50,6 +50,11 @@ return {
           end,
         },
 
+        -- ghost text for copilot
+        experimental = {
+          ghost_text = true,
+        },
+
         -- window
         window = {
           completion = cmp.config.window.bordered(),
@@ -95,8 +100,6 @@ return {
           { name = "buffer" },
         }),
       })
-
-      -- cmdline setup
 
       -- `/` cmdline setup.
       cmp.setup.cmdline("/", {
