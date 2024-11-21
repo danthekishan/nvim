@@ -110,6 +110,8 @@ return {
 			require("nvchad")
 			local nvb = require("nvchad.tabufline")
 			local opts = { noremap = true, silent = true }
+
+			-- keymaps
 			vim.keymap.set("n", "H", function()
 				nvb.prev()
 			end, opts)

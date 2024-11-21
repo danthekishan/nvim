@@ -2,6 +2,7 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		lazy = false,
+		priority = 1000,
 		tag = "0.1.8",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = function(_, opts)

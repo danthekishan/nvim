@@ -327,10 +327,62 @@ return {
 			-- tabs
 			wk.add({
 				{ "<leader>t", group = "📑 [T]abs" },
-				{ "<leader>te", ":tabedit", desc = "📝 Tab [E]dit" },
-				{ "<leader>tc", ":tabclose", desc = "🚫 Tab [C]lose" },
-				{ "<leader>tn", ":tabnext<CR>", desc = "➡️ [N]ext Tab" },
-				{ "<leader>tp", ":tabprev<CR>", desc = "⬅️ [P]rev Tab" },
+				{
+					"<leader>tc",
+					function()
+						require("nvchad.tabufline").close()
+					end,
+					desc = "🚫 Tab [C]lose",
+				},
+				{
+					"<leader>tn",
+					function()
+						require("nvchad.tabufline").next()
+					end,
+					desc = "➡️ [N]ext Tab",
+				},
+				{
+					"<leader>tp",
+					function()
+						require("nvchad.tabufline").prev()
+					end,
+					desc = "⬅️ [P]rev Tab",
+				},
+				{
+					"<leader>tC",
+					function()
+						require("nvchad.tabufline").closeAllBufs(false)
+					end,
+					desc = "🚫 Tab [C]lose Others",
+				},
+				{
+					"<leader>tl",
+					function()
+						require("nvchad.tabufline").closeBufs_at_direction("right")
+					end,
+					desc = "🚫 Tab close [R]ight",
+				},
+				{
+					"<leader>th",
+					function()
+						require("nvchad.tabufline").closeBufs_at_direction("left")
+					end,
+					desc = "🚫 Tab close [L]eft",
+				},
+				{
+					"<leader>tL",
+					function()
+						require("nvchad.tabufline").move_buf(1)
+					end,
+					desc = "👉 Move to [R]ight",
+				},
+				{
+					"<leader>tH",
+					function()
+						require("nvchad.tabufline").move_buf(-1)
+					end,
+					desc = "👈 Move to [L]eft",
+				},
 			})
 
 			-- --------------------------------------

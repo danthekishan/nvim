@@ -1,20 +1,20 @@
 local options = {
 
 	base46 = {
-		theme = "nightlamp", -- default theme
+		theme = "chadtain", -- default theme
 		hl_add = {},
 		hl_override = {},
 		integrations = {},
 		changed_themes = {},
 		transparency = false,
-		theme_toggle = { "nightlamp", "tundra" },
+		theme_toggle = { "chadtain", "nightlamp" },
 	},
 
 	ui = {
 		cmp = {
 			icons_left = true, -- only for non-atom styles!
 			lspkind_text = true,
-			style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
+			style = "atom", -- default/flat_light/flat_dark/atom/atom_colored
 			format_colors = {
 				tailwind = false, -- will work for css lsp too
 				icon = "󱓻",
@@ -25,12 +25,10 @@ local options = {
 
 		statusline = {
 			enabled = true,
-			theme = "minimal", -- default/vscode/vscode_colored/minimal
+			theme = "default", -- default/vscode/vscode_colored/minimal
 			-- default/round/block/arrow separators work only for default statusline theme
 			-- round and block will work for minimal theme only
 			separator_style = "default",
-			order = nil,
-			modules = nil,
 		},
 
 		-- lazyload it when there are 1+ buffers
@@ -43,7 +41,7 @@ local options = {
 	},
 
 	nvdash = {
-		load_on_startup = true,
+		load_on_startup = false,
 		header = {
 			"                                                      ",
 			"                                                      ",
