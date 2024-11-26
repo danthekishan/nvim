@@ -120,6 +120,8 @@ return {
 					},
 				},
 
+				eslint_lsp = {},
+
 				-- Go configuration
 				gopls = {
 					autostart = true,
@@ -297,7 +299,7 @@ return {
 			linters_by_ft = {
 				fish = { "fish" },
 				python = { "ruff" },
-				javascript = { "eslint" },
+				-- javascript = { "eslint" },
 			},
 			linters = {},
 		},
