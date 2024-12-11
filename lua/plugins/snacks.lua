@@ -9,6 +9,7 @@ return {
 			enabled = true,
 			timeout = 3000,
 		},
+		scroll = { enabled = true },
 		quickfile = { enabled = true },
 		words = { enabled = true },
 		styles = {
@@ -67,6 +68,27 @@ return {
 				Snacks.terminal.toggle()
 			end,
 			desc = "Toggle Terminal",
+		},
+		{
+			"<leader>z",
+			function()
+				Snacks.zen()
+			end,
+			desc = "Toggle Zen Mode",
+		},
+		{
+			"<leader>Z",
+			function()
+				Snacks.zen.zoom()
+			end,
+			desc = "Toggle Zoom",
+		},
+		{
+			"<leader>.",
+			function()
+				Snacks.scratch()
+			end,
+			desc = "Toggle Scratch Buffer",
 		},
 	},
 	init = function()
