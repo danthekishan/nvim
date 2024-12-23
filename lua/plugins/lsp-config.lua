@@ -13,6 +13,7 @@ return {
 	},
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 
+
 	-- lsp config
 	{
 		"neovim/nvim-lspconfig",
@@ -22,10 +23,12 @@ return {
 			-- Core LSP and installation management
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"saghen/blink.cmp",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			-- UI improvements
 			{ "j-hui/fidget.nvim", opts = {} },
 		},
+
 		opts = {
 			-- Diagnostic configuration
 			diagnostics = {
@@ -191,6 +194,7 @@ return {
 				},
 			},
 		},
+
 		config = function(_, opts)
 			-- Setup Mason package manager
 			require("mason").setup()
@@ -252,14 +256,15 @@ return {
 			})
 
 			-- Setup LSP servers
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			-- Configure diagnostic settings
 			vim.diagnostic.config(opts.diagnostics)
 
 			-- Setup mason-lspconfig
 			require("mason-lspconfig").setup({
+        ensure_installed = {},
+        automatic_installation = false,
 				handlers = {
 					function(server_name)
 						if server_name == "rust_analyzer" then

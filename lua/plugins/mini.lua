@@ -16,6 +16,8 @@ return { -- Collection of various small independent plugins/modules
 			},
 		})
 
+		require("mini.statusline").setup()
+
 		require("mini.diff").setup({})
 
 		-- Add/delete/replace surroundings (brackets, quotes, etc.)
@@ -34,6 +36,8 @@ return { -- Collection of various small independent plugins/modules
 				update_n_lines = "gsn", -- Update `n_lines`
 			},
 		})
+
+		require("mini.icons").setup()
 
 		-- comments
 		require("mini.comment").setup()

@@ -326,64 +326,17 @@ return {
 
 			-- tabs
 			wk.add({
-				{ "<leader>t", group = "📑 [T]abs" },
-				{
-					"<leader>tc",
-					function()
-						require("nvchad.tabufline").close()
-					end,
-					desc = "🚫 Tab [C]lose",
-				},
-				{
-					"<leader>tn",
-					function()
-						require("nvchad.tabufline").next()
-					end,
-					desc = "➡️ [N]ext Tab",
-				},
-				{
-					"<leader>tp",
-					function()
-						require("nvchad.tabufline").prev()
-					end,
-					desc = "⬅️ [P]rev Tab",
-				},
-				{
-					"<leader>tC",
-					function()
-						require("nvchad.tabufline").closeAllBufs(false)
-					end,
-					desc = "🚫 Tab [C]lose Others",
-				},
-				{
-					"<leader>tl",
-					function()
-						require("nvchad.tabufline").closeBufs_at_direction("right")
-					end,
-					desc = "🚫 Tab close [R]ight",
-				},
-				{
-					"<leader>th",
-					function()
-						require("nvchad.tabufline").closeBufs_at_direction("left")
-					end,
-					desc = "🚫 Tab close [L]eft",
-				},
-				{
-					"<leader>tL",
-					function()
-						require("nvchad.tabufline").move_buf(1)
-					end,
-					desc = "👉 Move to [R]ight",
-				},
-				{
-					"<leader>tH",
-					function()
-						require("nvchad.tabufline").move_buf(-1)
-					end,
-					desc = "👈 Move to [L]eft",
-				},
-			})
+        { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+        { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+        { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
+        { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
+        { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+        { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+        { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+        { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
+        { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
+        { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
+      })
 
 			-- --------------------------------------
 			-- EXTRA
@@ -397,7 +350,6 @@ return {
 				{ "<leader>xl", ":Lazy<CR>", desc = "🛋️ [L]azy" },
 				{ "<leader>xm", ":Mason<CR>", desc = "🧱 [M]ason" },
 				{ "<leader>xu", ":Telescope luasnip<CR>", desc = "✂️ l[U]asnip" },
-				{ "<leader>xc", ":NvCheatsheet<CR>", desc = "🗂️Nv[C]heatsheet" },
 			})
 
 			-- --------------------------------------

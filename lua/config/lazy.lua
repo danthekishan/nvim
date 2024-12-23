@@ -1,5 +1,3 @@
--- base46_cache
-vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
 -- bootstrap lazyvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -54,7 +52,7 @@ require("lazy").setup({
 	},
 	install = {
 		-- try to load one of these colorschemes when starting an installation during startup
-		colorscheme = { "nvchad" },
+		colorscheme = { "rose-pine" },
 	},
 	ui = {
 		-- a number <1 is a percentage., >1 is a fixed size
@@ -119,44 +117,4 @@ require("lazy").setup({
 	},
 })
 
--- import others
---blankline
--- cmp
--- colors
--- defaults
--- devicons
--- git
--- lsp
--- mason
--- nvcheatsheet
--- nvdash
--- nvimtree
--- orgmode
--- statusline
--- syntax
--- tbline
--- telescope
--- term
--- treesitter
--- whichkey
-
 require("config.remap")
-
-dofile(vim.g.base46_cache .. "cmp")
-dofile(vim.g.base46_cache .. "colors")
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "git")
-dofile(vim.g.base46_cache .. "lsp")
-dofile(vim.g.base46_cache .. "mason")
-dofile(vim.g.base46_cache .. "nvcheatsheet")
-dofile(vim.g.base46_cache .. "statusline")
-dofile(vim.g.base46_cache .. "syntax")
-dofile(vim.g.base46_cache .. "tbline")
-dofile(vim.g.base46_cache .. "telescope")
-dofile(vim.g.base46_cache .. "treesitter")
-dofile(vim.g.base46_cache .. "whichkey")
-
--- for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
--- 	print(v)
--- 	dofile(vim.g.base46_cache .. v)
--- end
