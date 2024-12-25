@@ -1,5 +1,5 @@
 -- Utility functions for LSP reference replacements
-local LSP_UTILS = {}
+local M = {}
 
 -- UI related utilities
 local UI = {}
@@ -261,6 +261,18 @@ function InteractiveReplace:setup_keymaps()
 		self:handle_line_selection()
 	end)
 
+	-- Select all references
+	map("n", "<C-a>", function()
+		local line_count = vim.api.nvim_buf_line_count(self.refs_win.buf)
+		for line = 1, line_count do
+			local line_content = vim.api.nvim_buf_get_lines(self.refs_win.buf, line - 1, line, false)[1]
+			self.selected_lines[line] = line_content
+		end
+		self:update_highlights()
+		local selected_content = vim.tbl_values(self.selected_lines)
+		vim.api.nvim_buf_set_lines(self.sel_win.buf, 0, -1, false, selected_content)
+	end)
+
 	-- Confirm and replace
 	map("n", "<C-y>", function()
 		self:handle_replacement()
@@ -279,8 +291,8 @@ function InteractiveReplace:setup_autocmds()
 	})
 end
 
--- Main LSP_UTILS functions
-function LSP_UTILS.get_search_word()
+-- Main M functions
+function M.get_search_word()
 	if vim.fn.mode() == "v" then
 		local start_pos = vim.fn.getpos("'<")
 		local end_pos = vim.fn.getpos("'>")
@@ -293,9 +305,9 @@ function LSP_UTILS.get_search_word()
 	return vim.fn.expand("<cword>")
 end
 
-function LSP_UTILS.replace_references(opts)
+function M.replace_references(opts)
 	opts = opts or {}
-	local word = LSP_UTILS.get_search_word()
+	local word = M.get_search_word()
 
 	vim.lsp.buf.references(nil, {
 		on_list = function(options)
@@ -319,7 +331,7 @@ function LSP_UTILS.replace_references(opts)
 	})
 end
 
-function LSP_UTILS.interactive_replace()
+function M.interactive_replace()
 	local word = vim.fn.expand("<cword>")
 
 	vim.lsp.buf.references(nil, {
@@ -335,4 +347,4 @@ function LSP_UTILS.interactive_replace()
 	})
 end
 
-return LSP_UTILS
+return M

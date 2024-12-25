@@ -1,4 +1,4 @@
-local lsp_utils = require('utils.lsp-utils')
+local lsp_utils = require("utils.lsp-utils")
 
 return {
 	{
@@ -227,7 +227,6 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 				callback = function(event)
-
 					local map = function(keys, func, desc)
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
@@ -245,12 +244,12 @@ return {
 					end, "replace (confirm)")
 
 					map("gw", function()
-						lsp_utils.replace_references({ preview_only = true })
-					end, "replace (preview)")
-
-					map("gW", function()
 						lsp_utils.interactive_replace()
 					end, "replace (interactive)")
+
+					map("gW", function()
+						lsp_utils.replace_references({ preview_only = true })
+					end, "replace (preview)")
 
 					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 					map("gD", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")

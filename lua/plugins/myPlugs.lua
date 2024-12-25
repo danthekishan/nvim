@@ -4,7 +4,7 @@ return {
 		name = "present",
 		lazy = false,
 		config = function()
-			require("present")
+			-- require("present")
 		end,
 		-- opts = { name = "Daniel" }
 	},
