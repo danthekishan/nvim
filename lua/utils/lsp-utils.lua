@@ -38,7 +38,7 @@ function UI.setup_windows()
 			relative = "editor",
 			width = width,
 			height = math.floor(height / 2) - 2,
-			row = math.floor(height / 2) + 3,
+			row = math.floor(height / 2) + 4,
 			col = math.floor((vim.o.columns - width) / 2),
 			style = "minimal",
 			border = "rounded",
@@ -281,11 +281,27 @@ end
 
 function InteractiveReplace:setup_autocmds()
 	local cleanup_group = vim.api.nvim_create_augroup("LSPReferenceReplace", { clear = true })
+	local resize_group = vim.api.nvim_create_augroup("LSPReferenceReplaceResize", { clear = true })
 	vim.api.nvim_create_autocmd("BufLeave", {
 		group = cleanup_group,
 		buffer = self.refs_win.buf,
 		callback = function()
 			self:close_windows()
+		end,
+		once = true,
+	})
+
+	vim.api.nvim_create_autocmd("VimResized", {
+		group = resize_group,
+		callback = function()
+			if not vim.api.nvim_win_is_valid(self.refs_win.win) or self.refs_win.win == nil then
+				return
+			end
+
+			local updated = UI.setup_windows()
+
+			vim.api.nvim_win_set_config(self.refs_win.win, updated.references)
+			vim.api.nvim_win_set_config(self.sel_win.win, updated.selection)
 		end,
 		once = true,
 	})
