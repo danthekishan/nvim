@@ -38,7 +38,6 @@ function M.create_float(title)
 		height = height,
 		row = math.floor((vim.o.lines - height) / 2),
 		col = math.floor((vim.o.columns - width) / 2),
-		style = "minimal",
 		border = { " ", " ", " ", " ", " ", " ", " ", " " },
 		title = title and (" " .. title .. " ") or nil,
 		title_pos = "center",
