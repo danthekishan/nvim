@@ -1,3 +1,5 @@
+local notes = require("utils.prog-notes")
+
 -- ======================================
 -- AUTOCMDS
 -- ======================================
@@ -21,3 +23,8 @@ vim.keymap.set("n", "N", "Nzz", opts)
 vim.keymap.set("n", "-", ":split<CR>", opts)
 vim.keymap.set("n", "|", ":vsplit<CR>", opts)
 vim.keymap.set("n", "=", "<C-w>=<cr>", opts)
+-- test.lua
+
+-- Create commands
+vim.keymap.set("n", "[n", notes.new_note, {})
+vim.keymap.set("n", "[f", notes.find_notes, {})
