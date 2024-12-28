@@ -26,5 +26,11 @@ vim.keymap.set("n", "=", "<C-w>=<cr>", opts)
 -- test.lua
 
 -- Create commands
-vim.keymap.set("n", "[n", notes.new_note, {})
-vim.keymap.set("n", "[f", notes.find_notes, {})
+vim.keymap.set("n", "[nn", notes.new_note, { desc = "New Note" })
+vim.keymap.set("n", "[nf", notes.find_notes, { desc = "Find Note" })
+vim.keymap.set("n", "[ns", notes.scratch_note, { desc = "Scratch Note" }) -- Open scratch note
+vim.keymap.set("n", "[nt", notes.todo, { desc = "Todo Note" }) -- Open TODO list
+vim.keymap.set("n", "[nl", notes.toggle_last_note, { desc = "Last Note" }) -- Toggle last note
+vim.keymap.set("n", "[nc", notes.git_commit_all, { desc = "Note Commit" }) -- Git commit
+vim.keymap.set("n", "[np", notes.git_push, { desc = "Note Push" }) -- Git push
+vim.keymap.set("n", "[ng", notes.git_status, { desc = "Note status" }) -- Git status
