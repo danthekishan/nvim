@@ -1,14 +1,6 @@
 local notes = require("utils.prog-notes")
 
 -- ======================================
--- AUTOCMDS
--- ======================================
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-	pattern = { "*.norg" },
-	command = "set conceallevel=3",
-})
-
--- ======================================
 -- VIM KEYMAPS
 -- ======================================
 local opts = { noremap = true, silent = true }
