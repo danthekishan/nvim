@@ -40,3 +40,5 @@ luac.out
 *.hex
 
 .DS_Stroe
+
+.lazy-lock.json
