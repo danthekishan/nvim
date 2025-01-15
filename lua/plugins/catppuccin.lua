@@ -46,10 +46,6 @@ return {
         harpoon = true,
 				treesitter = true,
 				notify = false,
-        telescope = {
-          enabled = true,
-          style = "nvchad"
-        },
 				mini = {
 					enabled = true,
 					indentscope_color = "",

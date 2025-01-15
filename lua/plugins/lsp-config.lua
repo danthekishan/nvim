@@ -231,10 +231,6 @@ return {
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					-- LSP keymaps
-					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-
 					map("gp", function()
 						lsp_utils.replace_references({ confirm = false })
 					end, "replace")
@@ -251,8 +247,6 @@ return {
 						lsp_utils.replace_references({ preview_only = true })
 					end, "replace (preview)")
 
-					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-					map("gD", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
 					map("<leader>la", vim.lsp.buf.code_action, "Code [A]ction")
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 					map("K", vim.lsp.buf.hover, "Hover Documentation")

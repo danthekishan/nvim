@@ -11,7 +11,6 @@ return {
 	end)(),
 	dependencies = {
 		"rafamadriz/friendly-snippets",
-		"benfowler/telescope-luasnip.nvim",
 	},
 	config = function(_, opts)
 		local ls = require("luasnip")
@@ -47,6 +46,6 @@ return {
 				ls.change_choice(1)
 			end
 		end, { silent = true })
-		vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/config/snippets.lua<CR>")
+		vim.keymap.set("n", "<leader>xs", "<cmd>source ~/.config/nvim/lua/config/snippets.lua<CR>")
 	end,
 }
