@@ -62,9 +62,9 @@ return {
 		{
 			"<leader>gl",
 			function()
-				Snacks.lazygit.log()
+				Snacks.picker.git_log_line()
 			end,
-			desc = "Lazygit Log (cwd)",
+			desc = "Git Log Line",
 		},
 
 		{
@@ -109,9 +109,9 @@ return {
 		{
 			"<leader><space>",
 			function()
-				Snacks.picker.files()
+				Snacks.picker.explorer()
 			end,
-			desc = "Find Files",
+			desc = "Explorer",
 		},
 
 		-- find
@@ -328,6 +328,20 @@ return {
 				Snacks.picker.lsp_type_definitions()
 			end,
 			desc = "Goto T[y]pe Definition",
+		},
+		{
+			"<leader>le",
+			function()
+				Snacks.picker.diagnostics_buffer()
+			end,
+			desc = "Diagnostics Buffer",
+		},
+		{
+			"<leader>le",
+			function()
+				Snacks.picker.diagnostics()
+			end,
+			desc = "Diagnostics",
 		},
 	},
 	init = function()

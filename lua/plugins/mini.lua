@@ -63,8 +63,6 @@ return { -- Collection of various small independent plugins/modules
 				"alpha",
 				"dashboard",
 				"neo-tree",
-				"Trouble",
-				"trouble",
 				"lazy",
 				"mason",
 				"notify",

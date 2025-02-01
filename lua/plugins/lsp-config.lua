@@ -173,6 +173,8 @@ return {
 					},
 				},
 
+				rust_analyzer = {},
+
 				-- Lua configuration
 				lua_ls = {
 					settings = {
@@ -425,6 +427,7 @@ return {
 				go = { "goimports", "gofmt" },
 				json = { "prettier" },
 				markdown = { "prettier" },
+				rust = { "rustfmt" },
 			},
 		},
 	},

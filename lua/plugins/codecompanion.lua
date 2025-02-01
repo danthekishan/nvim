@@ -14,7 +14,7 @@ return {
 					adapter = "openai",
 				},
 				inline = {
-					adapter = "opnai",
+					adapter = "openai",
 				},
 			},
 		})

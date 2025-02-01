@@ -103,20 +103,6 @@ return {
 
 				-- lsp
 				{ "<leader>l", group = "🧠 [L]SP" },
-				{ "<leader>lt", "<cmd>Trouble diagnostics toggle<cr>", desc = "🚦 [T]rouble Toggle" },
-				{
-					"<leader>lT",
-					"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-					desc = "📑 Buffer Diagnostics (Trouble)",
-				},
-				{ "<leader>ls", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "🏷️ Symbols (Trouble)" },
-				{
-					"<leader>ll",
-					"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-					desc = "📚 LSP Definitions (Trouble)",
-				},
-				{ "<leader>lL", "<cmd>Trouble loclist toggle<cr>", desc = "📍 Location List (Trouble)" },
-				{ "<leader>lq", "<cmd>Trouble qflist toggle<cr>", desc = "🚀 Quickfix List (Trouble)" },
 				{
 					"<leader>li",
 					function()
@@ -131,7 +117,7 @@ return {
 					desc = "📦 Organize [I]mports",
 				},
 
-        -- buffer
+				-- buffer
 				{ "<leader>b", group = "📑 [B]uffers" },
 				{
 					"<leader>bc",
@@ -163,12 +149,12 @@ return {
 				{ "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
 				{ "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
 
-        -- extra
+				-- extra
 				{ "<leader>x", group = "🎉 [X]tra" },
 				{ "<leader>xl", ":Lazy<CR>", desc = "🛋️ [L]azy" },
 				{ "<leader>xm", ":Mason<CR>", desc = "🧱 [M]ason" },
 
-        -- git
+				-- git
 				{ "<leader>g", group = "🎉 [G]it" },
 				{
 					"<leader>gd",
@@ -178,7 +164,6 @@ return {
 					desc = "📝 [D]iff",
 				},
 			})
-
 		end,
 	},
 }
