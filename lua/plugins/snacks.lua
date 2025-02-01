@@ -107,6 +107,13 @@ return {
 			desc = "Command History",
 		},
 		{
+			"<leader>;",
+			function()
+				Snacks.picker.icons()
+			end,
+			desc = "Icons",
+		},
+		{
 			"<leader><space>",
 			function()
 				Snacks.picker.explorer()
