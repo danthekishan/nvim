@@ -50,10 +50,6 @@ require("lazy").setup({
 			},
 		},
 	},
-	install = {
-		-- try to load one of these colorschemes when starting an installation during startup
-		colorscheme = { "rose-pine" },
-	},
 	ui = {
 		-- a number <1 is a percentage., >1 is a fixed size
 		size = { width = 0.8, height = 0.8 },

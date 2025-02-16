@@ -195,6 +195,9 @@ return {
 						},
 					},
 				},
+
+				-- elixir
+				elixirls = {},
 			},
 		},
 
@@ -218,6 +221,7 @@ return {
 				"goimports",
 				"gofumpt",
 				"css-lsp",
+				"elixir-ls",
 			}
 
 			-- Install required tools
