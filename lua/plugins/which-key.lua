@@ -15,42 +15,8 @@ return {
 			-- WHICH KEY MAPPINGS
 			-- ======================================
 
-			-- --------------------------------------
-			-- Code Companion
-			-- --------------------------------------
-			vim.cmd([[cab cc CodeCompanion]])
-
 			wk.add({
 				{ "<leader>s", group = "⚡ [S]earch and Replace" },
-				{ "<leader>a", group = "🤖 AI Code Companion" },
-				{
-					"<leader>aa",
-					"<cmd>CodeCompanionActions<cr>",
-					desc = "✨ Execute AI Actions",
-				},
-				{
-					"<leader>aa",
-					"<cmd>CodeCompanionActions<cr>",
-					desc = "✨ Execute AI Actions",
-					mode = "v",
-				},
-				{
-					"<leader>ac",
-					"<cmd>CodeCompanionChat Toggle<cr>",
-					desc = "💬 Toggle AI Chat",
-				},
-				{
-					"<leader>ac",
-					"<cmd>CodeCompanionChat Toggle<cr>",
-					desc = "💬 Toggle AI Chat",
-					mode = "v",
-				},
-				{
-					"<leader>al",
-					"<cmd>CodeCompanionChat Add<cr>",
-					desc = "➕ Add Selection to Chat",
-					mode = "v",
-				},
 
 				-- explorer
 				{

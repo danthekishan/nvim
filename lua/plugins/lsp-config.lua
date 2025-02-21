@@ -322,6 +322,7 @@ return {
 			linters_by_ft = {
 				fish = { "fish" },
 				python = { "ruff" },
+				elixir = { "credo" },
 				-- javascript = { "eslint" },
 			},
 			linters = {},
@@ -432,6 +433,10 @@ return {
 				json = { "prettier" },
 				markdown = { "prettier" },
 				rust = { "rustfmt" },
+				elixir = { "mix" },
+				eelixir = { "mix" },
+				heex = { "mix" },
+				surface = { "mix" },
 			},
 		},
 	},
