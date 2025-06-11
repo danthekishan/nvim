@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = { 
+	dependencies = {
 		"rafamadriz/friendly-snippets",
 		"L3MON4D3/LuaSnip",
 	},
@@ -10,12 +10,12 @@ return {
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
-		keymap = { 
+		keymap = {
 			preset = "default",
-			["<C-n>"] = { 'select_next', 'snippet_forward', 'fallback' },
-			["<C-p>"] = { 'select_prev', 'snippet_backward', 'fallback' },
-			["<Tab>"] = { 'accept', 'fallback' },
-			["<S-Tab>"] = { 'fallback' },
+			["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
+			["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
+			["<Tab>"] = { "accept", "fallback" },
+			["<S-Tab>"] = { "fallback" },
 		},
 
 		appearance = {
@@ -32,22 +32,32 @@ return {
 					max_width = 80,
 					max_height = 20,
 					border = "rounded",
+					-- winblend = 10,
+					-- winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine",
 					scrollbar = true,
 				},
 			},
 			menu = {
+				border = "rounded",
+				winblend = 10,
+				winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
 				draw = {
 					treesitter = { "lsp" },
-					columns = { 
-						{ "kind_icon" }, 
-						{ "label", "label_description", gap = 1 }, 
-						{ "kind" } 
+					padding = 1,
+					gap = 1,
+					columns = {
+						{ "kind_icon" },
+						{ "label", "label_description", gap = 1 },
+						{ "kind" },
 					},
 				},
 			},
+			ghost_text = {
+				enabled = true,
+			},
 		},
 
-		snippets = { 
+		snippets = {
 			preset = "luasnip",
 			expand = function(snippet)
 				require("luasnip").lsp_expand(snippet)
@@ -69,6 +79,19 @@ return {
 
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
+		},
+
+		signature = {
+			enabled = true,
+			window = {
+				min_width = 1,
+				max_width = 100,
+				max_height = 10,
+				border = "rounded",
+				scrollbar = true,
+				-- winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder",
+				-- show_documentation = false,
+			},
 		},
 
 		fuzzy = { implementation = "prefer_rust_with_warning" },
