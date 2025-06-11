@@ -12,6 +12,8 @@ local config = function()
 			"BufNewFile",
 		},
 		ensure_installed = {
+      "c",
+      "svelte",
 			"elixir",
 			"eex",
 			"heex",

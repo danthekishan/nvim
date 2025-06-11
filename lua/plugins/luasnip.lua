@@ -29,7 +29,7 @@ return {
 		ls.filetype_extend("python", { "pydoc" })
 		ls.filetype_extend("rust", { "rustdoc" })
 
-		require("../config.snippets")
+		require("config.snippets")
 
 		-- jump forward within snippet
 		vim.keymap.set({ "i" }, "<C-k>", function()

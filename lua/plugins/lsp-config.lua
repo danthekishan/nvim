@@ -63,6 +63,8 @@ return {
 			},
 			-- Server configurations
 			servers = {
+				clangd = {},
+
 				-- Python configuration
 				pyright = {
 					on_attach = function(client, bufnr)
@@ -222,6 +224,9 @@ return {
 				"gofumpt",
 				"css-lsp",
 				"elixir-ls",
+				"svelte",
+				"clangd",
+        "clang-format"
 			}
 
 			-- Install required tools
@@ -425,18 +430,23 @@ return {
 						return { "isort", "black" }
 					end
 				end,
+				svelte = { "prettier", stop_after_first = true },
+				css = { "prettier", stop_after_first = true },
+				html = { "prettier", stop_after_first = true },
 				javascript = { "prettier", stop_after_first = true },
 				javascriptreact = { "prettier", stop_after_first = true },
 				typescript = { "prettier", stop_after_first = true },
 				typescriptreact = { "prettier", stop_after_first = true },
 				go = { "goimports", "gofmt" },
 				json = { "prettier" },
+				jsonl = { "prettier" },
 				markdown = { "prettier" },
 				rust = { "rustfmt" },
 				elixir = { "mix" },
 				eelixir = { "mix" },
 				heex = { "mix" },
 				surface = { "mix" },
+        c = {"clang-format"}
 			},
 		},
 	},
