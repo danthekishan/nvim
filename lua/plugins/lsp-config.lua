@@ -200,6 +200,20 @@ return {
 
 				-- elixir
 				elixirls = {},
+
+				emmet_ls = {
+					filetypes = {
+						"html",
+						"css",
+						"scss",
+						"javascript",
+						"javascriptreact",
+						"typescript",
+						"typescriptreact",
+						"vue",
+						"svelte",
+					},
+				},
 			},
 		},
 
@@ -226,7 +240,8 @@ return {
 				"elixir-ls",
 				"svelte",
 				"clangd",
-        "clang-format"
+				"clang-format",
+        "emmet_ls"
 			}
 
 			-- Install required tools
@@ -446,7 +461,7 @@ return {
 				eelixir = { "mix" },
 				heex = { "mix" },
 				surface = { "mix" },
-        c = {"clang-format"}
+				c = { "clang-format" },
 			},
 		},
 	},

@@ -83,15 +83,15 @@ return {
 
 		signature = {
 			enabled = true,
-			window = {
-				min_width = 1,
-				max_width = 100,
-				max_height = 10,
-				border = "rounded",
-				scrollbar = true,
-				-- winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder",
-				-- show_documentation = false,
-			},
+			-- window = {
+			-- 	min_width = 1,
+			-- 	max_width = 100,
+			-- 	max_height = 10,
+			-- 	border = "rounded",
+			-- 	scrollbar = true,
+			-- 	winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder",
+			-- 	show_documentation = false,
+			-- },
 		},
 
 		fuzzy = { implementation = "prefer_rust_with_warning" },

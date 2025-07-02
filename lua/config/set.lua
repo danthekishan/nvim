@@ -87,5 +87,9 @@ vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { fg = "#ffffff", bg = "NONE" 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
+-- Enable filetype detection, plugins, and indentation
+vim.cmd("filetype plugin indent on")
+vim.cmd("syntax enable")
+
 -- netrw
 vim.keymap.set("n", "g;", "<cmd>Ex<CR>")

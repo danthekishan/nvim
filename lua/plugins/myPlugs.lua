@@ -1,10 +1,10 @@
 return {
 	-- {
-	-- 	dir = "~/nvim_plugins/present.nvim",
-	-- 	name = "present",
+	-- 	dir = "~/projects/yaaa.nvim",
+	-- 	name = "yaaa",
 	-- 	lazy = false,
 	-- 	config = function()
-	-- 		-- require("present")
+	-- 		require("yaaa").setup()
 	-- 	end,
 	-- 	-- opts = { name = "Daniel" }
 	-- },
