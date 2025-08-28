@@ -113,4 +113,7 @@ require("lazy").setup({
 	},
 })
 
+local winbar = require("config.winbar")
+winbar.setup_highlights()
+vim.o.winbar = "%{%v:lua.require('config.winbar').get()%}"
 require("config.remap")

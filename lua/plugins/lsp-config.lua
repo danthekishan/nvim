@@ -224,6 +224,9 @@ return {
 			-- Define tools to install
 			local ensure_installed = {
 				"gopls",
+				"bashls",
+				"shfmt",
+        "shellcheck",
 				"eslint",
 				"lua_ls",
 				"pyright",
@@ -241,7 +244,7 @@ return {
 				"svelte",
 				"clangd",
 				"clang-format",
-        "emmet_ls"
+				"emmet_ls",
 			}
 
 			-- Install required tools
@@ -462,6 +465,7 @@ return {
 				heex = { "mix" },
 				surface = { "mix" },
 				c = { "clang-format" },
+				sh = { "shfmt" },
 			},
 		},
 	},
