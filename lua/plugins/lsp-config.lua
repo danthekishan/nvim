@@ -65,6 +65,8 @@ return {
 			servers = {
 				clangd = {},
 
+				ols = {},
+
 				-- Python configuration
 				pyright = {
 					on_attach = function(client, bufnr)
@@ -230,6 +232,7 @@ return {
 				"eslint",
 				"lua_ls",
 				"pyright",
+				"ols",
 				-- "ts_ls",
 				"vtsls",
 				"html-lsp",
