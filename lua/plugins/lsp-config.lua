@@ -74,6 +74,7 @@ return {
 						pyright = {
 							disableOrganizeImports = true, -- Using Ruff
 							typeCheckingMode = "standard",
+							diagnosticMode = "workspace",
 						},
 						python = {
 							analysis = {
@@ -84,49 +85,51 @@ return {
 				},
 
 				-- TypeScript configuration
-				-- ts_ls = {
-				-- 	alt_name = "ts_ls",
-				-- },
-
-				-- in favour of ts_ls
-				vtsls = {
-					filetypes = {
-						"javascript",
-						"javascriptreact",
-						"javascript.jsx",
-						"typescript",
-						"typescriptreact",
-						"typescript.tsx",
-					},
-					settings = {
-						complete_function_calls = true,
-						vtsls = {
-							enableMoveToFileCodeAction = true,
-							autoUseWorkspaceTsdk = true,
-							experimental = {
-								completion = {
-									enableServerSideFuzzyMatch = true,
-								},
-							},
-						},
-						typescript = {
-							updateImportsOnFileMove = { enabled = "always" },
-							suggest = {
-								completeFunctionCalls = true,
-							},
-							inlayHints = {
-								enumMemberValues = { enabled = true },
-								functionLikeReturnTypes = { enabled = true },
-								parameterNames = { enabled = "literals" },
-								parameterTypes = { enabled = true },
-								propertyDeclarationTypes = { enabled = true },
-								variableTypes = { enabled = false },
-							},
-						},
-					},
+				ts_ls = {
+					alt_name = "ts_ls",
 				},
 
+				-- in favour of ts_ls
+				-- vtsls = {
+				-- 	filetypes = {
+				-- 		"javascript",
+				-- 		"javascriptreact",
+				-- 		"javascript.jsx",
+				-- 		"typescript",
+				-- 		"typescriptreact",
+				-- 		"typescript.tsx",
+				-- 	},
+				-- 	settings = {
+				-- 		complete_function_calls = true,
+				-- 		vtsls = {
+				-- 			enableMoveToFileCodeAction = true,
+				-- 			autoUseWorkspaceTsdk = true,
+				-- 			experimental = {
+				-- 				completion = {
+				-- 					enableServerSideFuzzyMatch = true,
+				-- 				},
+				-- 			},
+				-- 		},
+				-- 		typescript = {
+				-- 			updateImportsOnFileMove = { enabled = "always" },
+				-- 			suggest = {
+				-- 				completeFunctionCalls = true,
+				-- 			},
+				-- 			inlayHints = {
+				-- 				enumMemberValues = { enabled = true },
+				-- 				functionLikeReturnTypes = { enabled = true },
+				-- 				parameterNames = { enabled = "literals" },
+				-- 				parameterTypes = { enabled = true },
+				-- 				propertyDeclarationTypes = { enabled = true },
+				-- 				variableTypes = { enabled = false },
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
+
 				eslint_lsp = {},
+
+				zls = {},
 
 				-- Go configuration
 				gopls = {
@@ -174,8 +177,6 @@ return {
 						},
 					},
 				},
-
-				rust_analyzer = {},
 
 				-- Lua configuration
 				lua_ls = {
@@ -226,14 +227,13 @@ return {
 				"gopls",
 				"bashls",
 				"shfmt",
-        "shellcheck",
+				"shellcheck",
 				"eslint",
 				"lua_ls",
 				"pyright",
 				-- "ts_ls",
 				"vtsls",
 				"html-lsp",
-				"rust_analyzer",
 				"ruff",
 				"stylua",
 				"prettier",
@@ -245,6 +245,7 @@ return {
 				"clangd",
 				"clang-format",
 				"emmet_ls",
+				"zls",
 			}
 
 			-- Install required tools
@@ -465,7 +466,7 @@ return {
 				heex = { "mix" },
 				surface = { "mix" },
 				c = { "clang-format" },
-				sh = { "shfmt" },
+				sh = { "shfmt" }
 			},
 		},
 	},
