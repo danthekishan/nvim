@@ -39,8 +39,6 @@ opt.inccommand = "split"
 -- ======================================
 -- BEHAVIOUR
 -- ======================================
-opt.hidden = true
-opt.errorbells = false
 opt.swapfile = false
 opt.backup = false
 opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
@@ -75,7 +73,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })
 	end,
 })
-vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { fg = "#ffffff", bg = "NONE" })
 
 -- ------------------------------------------------------------------
 -- [[ Basic Keymaps ]]
@@ -87,7 +84,6 @@ vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { fg = "#ffffff", bg = "NONE" 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
--- Enable filetype detection, plugins, and indentation
 vim.cmd("filetype plugin indent on")
 vim.cmd("syntax enable")
 

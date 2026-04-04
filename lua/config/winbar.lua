@@ -95,16 +95,16 @@ end
 
 -- Set up highlight groups
 function M.setup_highlights()
-	vim.api.nvim_set_hl(0, "WinBarFilename", { fg = "#abb2bf", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarFilenameError", { fg = "#e06c75", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarFilenameWarn", { fg = "#e5c07b", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarFilenameInfo", { fg = "#61afef", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarFilenameHint", { fg = "#56b6c2", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarModified", { fg = "#98be65", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarError", { fg = "#e06c75", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarWarn", { fg = "#e5c07b", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarInfo", { fg = "#61afef", bold = true })
-	vim.api.nvim_set_hl(0, "WinBarHint", { fg = "#56b6c2", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarFilename", { fg = "#d4be98", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarFilenameError", { fg = "#ea6962", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarFilenameWarn", { fg = "#d8a657", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarFilenameInfo", { fg = "#7daea3", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarFilenameHint", { fg = "#89b482", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarModified", { fg = "#a9b665", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarError", { fg = "#ea6962", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarWarn", { fg = "#d8a657", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarInfo", { fg = "#7daea3", bold = true })
+	vim.api.nvim_set_hl(0, "WinBarHint", { fg = "#89b482", bold = true })
 end
 
 return M

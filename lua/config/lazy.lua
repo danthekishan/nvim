@@ -117,3 +117,4 @@ local winbar = require("config.winbar")
 winbar.setup_highlights()
 vim.o.winbar = "%{%v:lua.require('config.winbar').get()%}"
 require("config.remap")
+require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/lua/snippets/" })

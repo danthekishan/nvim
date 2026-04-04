@@ -7,7 +7,6 @@ return {
 		ft = "lua", -- only load on lua files
 		opts = {
 			library = {
-				-- See the configuration section for more details
 				-- Load luvit types when the `vim.uv` word is found
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
 			},
@@ -21,12 +20,10 @@ return {
 		event = { "BufReadPost", "BufNewFile" },
 		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
 		dependencies = {
-			-- Core LSP and installation management
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"saghen/blink.cmp",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
-			-- UI improvements
 			{ "j-hui/fidget.nvim", opts = {} },
 		},
 
@@ -43,10 +40,10 @@ return {
 				severity_sort = true,
 				signs = {
 					text = {
-						[vim.diagnostic.severity.ERROR] = "󰅙", -- Replace with your preferred icon
-						[vim.diagnostic.severity.WARN] = "󰀦", -- Replace with your preferred icon
-						[vim.diagnostic.severity.HINT] = "󰌵", -- Replace with your preferred icon
-						[vim.diagnostic.severity.INFO] = "󰋼", -- Replace with your preferred icon
+						[vim.diagnostic.severity.ERROR] = "󰅙",
+						[vim.diagnostic.severity.WARN] = "󰀦",
+						[vim.diagnostic.severity.HINT] = "󰌵",
+						[vim.diagnostic.severity.INFO] = "󰋼",
 					},
 				},
 			},
@@ -65,11 +62,10 @@ return {
 			servers = {
 				clangd = {},
 
-				-- Python configuration
+				bashls = {},
+
+				-- Python
 				pyright = {
-					on_attach = function(client, bufnr)
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					end,
 					settings = {
 						pyright = {
 							disableOrganizeImports = true, -- Using Ruff
@@ -84,59 +80,18 @@ return {
 					},
 				},
 
-				-- TypeScript configuration
+				-- TypeScript
 				ts_ls = {
 					alt_name = "ts_ls",
 				},
 
-				-- in favour of ts_ls
-				-- vtsls = {
-				-- 	filetypes = {
-				-- 		"javascript",
-				-- 		"javascriptreact",
-				-- 		"javascript.jsx",
-				-- 		"typescript",
-				-- 		"typescriptreact",
-				-- 		"typescript.tsx",
-				-- 	},
-				-- 	settings = {
-				-- 		complete_function_calls = true,
-				-- 		vtsls = {
-				-- 			enableMoveToFileCodeAction = true,
-				-- 			autoUseWorkspaceTsdk = true,
-				-- 			experimental = {
-				-- 				completion = {
-				-- 					enableServerSideFuzzyMatch = true,
-				-- 				},
-				-- 			},
-				-- 		},
-				-- 		typescript = {
-				-- 			updateImportsOnFileMove = { enabled = "always" },
-				-- 			suggest = {
-				-- 				completeFunctionCalls = true,
-				-- 			},
-				-- 			inlayHints = {
-				-- 				enumMemberValues = { enabled = true },
-				-- 				functionLikeReturnTypes = { enabled = true },
-				-- 				parameterNames = { enabled = "literals" },
-				-- 				parameterTypes = { enabled = true },
-				-- 				propertyDeclarationTypes = { enabled = true },
-				-- 				variableTypes = { enabled = false },
-				-- 			},
-				-- 		},
-				-- 	},
-				-- },
-
-				eslint_lsp = {},
+				eslint = {},
 
 				zls = {},
 
-				-- Go configuration
+				-- Go
 				gopls = {
 					autostart = true,
-					on_attach = function(client, bufnr)
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					end,
 					settings = {
 						gopls = {
 							analyses = {
@@ -148,7 +103,7 @@ return {
 					},
 				},
 
-				-- HTML configuration
+				-- HTML
 				html = {
 					filetypes = { "html", "javascriptreact", "typescript.tsx", "typescriptreact" },
 					settings = {
@@ -166,7 +121,7 @@ return {
 					},
 				},
 
-				-- CSS configuration remains the same...
+				-- CSS
 				cssls = {
 					settings = {
 						css = {
@@ -178,7 +133,7 @@ return {
 					},
 				},
 
-				-- Lua configuration
+				-- Lua
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -199,7 +154,6 @@ return {
 					},
 				},
 
-				-- elixir
 				elixirls = {},
 
 				emmet_ls = {
@@ -219,10 +173,8 @@ return {
 		},
 
 		config = function(_, opts)
-			-- Setup Mason package manager
 			require("mason").setup()
 
-			-- Define tools to install
 			local ensure_installed = {
 				"gopls",
 				"bashls",
@@ -231,7 +183,6 @@ return {
 				"eslint",
 				"lua_ls",
 				"pyright",
-				-- "ts_ls",
 				"vtsls",
 				"html-lsp",
 				"ruff",
@@ -248,7 +199,6 @@ return {
 				"zls",
 			}
 
-			-- Install required tools
 			require("mason-tool-installer").setup({
 				ensure_installed = ensure_installed,
 			})
@@ -257,53 +207,97 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 				callback = function(event)
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					local bufnr = event.buf
+
 					local map = function(keys, func, desc)
-						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+						vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
 					end
 
+					-- Custom rename/replace utilities
 					map("gp", function()
 						lsp_utils.replace_references({ confirm = false })
-					end, "replace")
+					end, "Replace references")
 
 					map("gP", function()
 						lsp_utils.replace_references({ confirm = true })
-					end, "replace (confirm)")
+					end, "Replace references (confirm)")
 
 					map("gw", function()
 						lsp_utils.interactive_replace()
-					end, "replace (interactive)")
+					end, "Replace (interactive)")
 
 					map("gW", function()
 						lsp_utils.replace_references({ preview_only = true })
-					end, "replace (preview)")
+					end, "Replace (preview)")
 
+					-- LSP actions
+					-- Note: grn=rename, grr=references, gri=implementation, gra=code_action, K=hover are nvim 0.11+ defaults
 					map("<leader>la", vim.lsp.buf.code_action, "Code [A]ction")
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 					map("K", vim.lsp.buf.hover, "Hover Documentation")
 					map("ge", vim.diagnostic.open_float, "Show Diagnostic")
 
-					-- Setup document highlighting
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if client and client.server_capabilities.documentHighlightProvider then
+					-- Inlay hints toggle
+					if opts.inlay_hints.enabled then
+						map("<leader>lh", function()
+							vim.lsp.inlay_hint.enable(
+								not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+								{ bufnr = bufnr }
+							)
+						end, "Toggle Inlay [H]ints")
+					end
+
+					-- Enable inlay hints if supported and not excluded
+					if
+						opts.inlay_hints.enabled
+						and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[bufnr].filetype)
+						and client
+						and client:supports_method("textDocument/inlayHint")
+					then
+						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+					end
+
+					-- Codelens
+					if opts.codelens.enabled and client and client:supports_method("textDocument/codeLens") then
+						vim.lsp.codelens.refresh()
+						vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+							buffer = bufnr,
+							callback = vim.lsp.codelens.refresh,
+						})
+					end
+
+					-- Document highlight
+					if
+						opts.document_highlight.enabled
+						and client
+						and client:supports_method("textDocument/documentHighlight")
+					then
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-							buffer = event.buf,
+							buffer = bufnr,
 							callback = vim.lsp.buf.document_highlight,
 						})
 						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-							buffer = event.buf,
+							buffer = bufnr,
 							callback = vim.lsp.buf.clear_references,
 						})
 					end
 				end,
 			})
 
-			-- Setup LSP servers
+			-- Cleanup on LSP detach
+			vim.api.nvim_create_autocmd("LspDetach", {
+				group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+				callback = function(event)
+					vim.lsp.buf.clear_references()
+					vim.api.nvim_clear_autocmds({ buffer = event.buf, group = "lsp-attach" })
+				end,
+			})
+
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			-- Configure diagnostic settings
 			vim.diagnostic.config(opts.diagnostics)
 
-			-- Setup mason-lspconfig
 			require("mason-lspconfig").setup({
 				ensure_installed = {},
 				automatic_installation = false,
@@ -322,7 +316,6 @@ return {
 							filetypes = server.filetypes,
 							capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {}),
 							autostart = server.autostart or true,
-							on_attach = server.on_attach,
 						}
 
 						if server_name == "ts_ls" then
@@ -341,13 +334,11 @@ return {
 		"mfussenegger/nvim-lint",
 		event = { "BufWritePost", "BufReadPost", "InsertLeave" },
 		opts = {
-			-- Event to trigger linters
 			events = { "BufWritePost", "BufReadPost", "InsertLeave" },
 			linters_by_ft = {
 				fish = { "fish" },
 				python = { "ruff" },
 				elixir = { "credo" },
-				-- javascript = { "eslint" },
 			},
 			linters = {},
 		},
@@ -355,7 +346,6 @@ return {
 			local M = {}
 			local lint = require("lint")
 
-			-- Configure linters
 			for name, linter in pairs(opts.linters) do
 				if type(linter) == "table" and type(lint.linters[name]) == "table" then
 					lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
@@ -367,10 +357,9 @@ return {
 					lint.linters[name] = linter
 				end
 			end
-			-- Set up linters by filetype
+
 			lint.linters_by_ft = opts.linters_by_ft
 
-			-- Debounce function to prevent excessive linting
 			function M.debounce(ms, fn)
 				local timer = vim.uv.new_timer()
 				return function(...)
@@ -382,20 +371,16 @@ return {
 				end
 			end
 
-			-- Main lint function
 			function M.lint()
 				local names = lint._resolve_linter_by_ft(vim.bo.filetype)
 				names = vim.list_extend({}, names)
 
-				-- Add fallback linters
 				if #names == 0 then
 					vim.list_extend(names, lint.linters_by_ft["_"] or {})
 				end
 
-				-- Add global linters
 				vim.list_extend(names, lint.linters_by_ft["*"] or {})
 
-				-- Filter out invalid linters
 				local ctx = { filename = vim.api.nvim_buf_get_name(0) }
 				ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
 				names = vim.tbl_filter(function(name)
@@ -406,13 +391,11 @@ return {
 					return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
 				end, names)
 
-				-- Run linters
 				if #names > 0 then
 					lint.try_lint(names)
 				end
 			end
 
-			-- Set up autocommands
 			vim.api.nvim_create_autocmd(opts.events, {
 				group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
 				callback = M.debounce(100, M.lint),
@@ -423,12 +406,10 @@ return {
 	-- autoformat
 	{
 		"stevearc/conform.nvim",
-		-- format on save or <leader>lf
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
 		keys = {
 			{
-				-- Customize or remove this keymap to your liking
 				"<leader>lf",
 				function()
 					require("conform").format({ async = true })
@@ -466,7 +447,8 @@ return {
 				heex = { "mix" },
 				surface = { "mix" },
 				c = { "clang-format" },
-				sh = { "shfmt" }
+				sh = { "shfmt" },
+        zig = { "zigfmt" }
 			},
 		},
 	},

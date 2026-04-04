@@ -4,25 +4,129 @@ return {
 	lazy = false,
 	---@type snacks.Config
 	opts = {
+		-- ──────────────────────────────────────────────────────────────
+		-- Core modules
+		-- ──────────────────────────────────────────────────────────────
 		bigfile = { enabled = true },
+		quickfile = { enabled = true },
+
+		-- ──────────────────────────────────────────────────────────────
+		-- UI modules
+		-- ──────────────────────────────────────────────────────────────
+		dashboard = { enabled = true },
+		indent = { enabled = true },   -- NEW: static indent guides (complements mini.indentscope)
+		scroll = { enabled = true },
+		statuscolumn = { enabled = true }, -- NEW: pretty status column with signs/folds/numbers
+
+		-- ──────────────────────────────────────────────────────────────
+		-- Input / notifications
+		-- ──────────────────────────────────────────────────────────────
+		input = { enabled = true }, -- NEW: replaces vim.ui.input with a nicer float
 		notifier = {
 			enabled = true,
 			timeout = 3000,
+			style = "fancy", -- "compact" | "fancy" | "minimal"
 		},
-		scroll = { enabled = true },
-		quickfile = { enabled = true },
+
+		-- ──────────────────────────────────────────────────────────────
+		-- Picker (replaces telescope)
+		-- ──────────────────────────────────────────────────────────────
+		picker = { enabled = true },
+
+		-- ──────────────────────────────────────────────────────────────
+		terminal = {
+			enabled = true,
+			win = {
+				keys = {
+					-- q in normal mode hides the terminal (keeps process alive)
+					q = "hide",
+					-- gf opens the file under cursor from the terminal
+					gf = function(self)
+						local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
+						if f == "" then
+							Snacks.notify.warn("No file under cursor")
+						else
+							self:hide()
+							vim.schedule(function()
+								vim.cmd("e " .. f)
+							end)
+						end
+					end,
+					-- double <esc> = exit terminal insert mode
+					-- single <esc> passes through to shell (needed for vim, fzf etc inside terminal)
+					term_normal = {
+						"<esc>",
+						function(self)
+							self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
+							if self.esc_timer:is_active() then
+								self.esc_timer:stop()
+								vim.cmd("stopinsert")
+							else
+								self.esc_timer:start(200, 0, function() end)
+								return "<esc>"
+							end
+						end,
+						mode = "t",
+						expr = true,
+						desc = "Double escape to normal mode",
+					},
+				},
+			},
+		},
+
+		-- ──────────────────────────────────────────────────────────────
+		-- Words -- highlights and jumps between LSP word references
+		-- ──────────────────────────────────────────────────────────────
 		words = { enabled = true },
+
+		-- ──────────────────────────────────────────────────────────────
+		-- Scope -- NEW: treesitter/indent based scope detection
+		-- ──────────────────────────────────────────────────────────────
+		scope = { enabled = true },
+
+		-- ──────────────────────────────────────────────────────────────
+		-- Styles overrides
+		-- ──────────────────────────────────────────────────────────────
 		styles = {
 			notification = {
 				relative = "editor",
-				wo = { wrap = true }, -- Wrap notifications
+				wo = { wrap = true },
 			},
 		},
-		dashboard = { enabled = true },
-		picker = {},
 	},
-	keys = {
 
+	keys = {
+		-- ──────────────────────────────────────────────────────────────
+		-- Terminal -- FIX: added cwd so project context is correct
+		--             added mode = "t" so <c-/> also works inside terminal
+		-- ──────────────────────────────────────────────────────────────
+		{
+			"<c-/>",
+			function()
+				Snacks.terminal.toggle(nil, { cwd = vim.fn.getcwd() })
+			end,
+			desc = "Toggle Terminal",
+		},
+		{
+			"<c-/>",
+			function()
+				Snacks.terminal.toggle(nil, { cwd = vim.fn.getcwd() })
+			end,
+			mode = "t", -- FIX: allows toggling terminal from inside terminal
+			desc = "Toggle Terminal",
+		},
+		-- Numbered terminals: press 1<c-t>, 2<c-t> etc. for separate instances
+		{
+			"<c-t>",
+			function()
+				Snacks.terminal.toggle(nil, { cwd = vim.fn.getcwd() })
+			end,
+			desc = "Toggle Terminal (alt key)",
+		},
+
+		-- ──────────────────────────────────────────────────────────────
+		-- Notifications
+		-- ──────────────────────────────────────────────────────────────
 		{
 			"<leader>un",
 			function()
@@ -30,7 +134,17 @@ return {
 			end,
 			desc = "Dismiss All Notifications",
 		},
+		{
+			"<leader>sn",
+			function()
+				Snacks.picker.notifications()
+			end,
+			desc = "Notification History",
+		},
 
+		-- ──────────────────────────────────────────────────────────────
+		-- Git
+		-- ──────────────────────────────────────────────────────────────
 		{
 			"<leader>gg",
 			function()
@@ -51,6 +165,7 @@ return {
 				Snacks.gitbrowse()
 			end,
 			desc = "Git Browse",
+			mode = { "n", "v" }, -- NEW: works on visual selection too (links to line range)
 		},
 		{
 			"<leader>gf",
@@ -66,15 +181,24 @@ return {
 			end,
 			desc = "Git Log Line",
 		},
-
 		{
-			"<c-/>",
+			"<leader>gc",
 			function()
-				Snacks.terminal.toggle()
+				Snacks.picker.git_log()
 			end,
-			desc = "Toggle Terminal",
+			desc = "Git Log",
+		},
+		{
+			"<leader>gs",
+			function()
+				Snacks.picker.git_status()
+			end,
+			desc = "Git Status",
 		},
 
+		-- ──────────────────────────────────────────────────────────────
+		-- Zen / focus
+		-- ──────────────────────────────────────────────────────────────
 		{
 			"<leader>z",
 			function()
@@ -90,6 +214,9 @@ return {
 			desc = "Toggle Zoom",
 		},
 
+		-- ──────────────────────────────────────────────────────────────
+		-- Scratch buffer
+		-- ──────────────────────────────────────────────────────────────
 		{
 			"<leader>.",
 			function()
@@ -97,8 +224,24 @@ return {
 			end,
 			desc = "Toggle Scratch Buffer",
 		},
+		{
+			"<leader>S",
+			function()
+				Snacks.scratch.select()
+			end,
+			desc = "Select Scratch Buffer", -- NEW: pick from multiple scratch buffers
+		},
 
-		-- picker
+		-- ──────────────────────────────────────────────────────────────
+		-- Picker: core
+		-- ──────────────────────────────────────────────────────────────
+		{
+			"<leader><space>",
+			function()
+				Snacks.picker.smart()
+			end,
+			desc = "Smart Find Files", -- NEW: smarter than plain files()
+		},
 		{
 			"<leader>:",
 			function()
@@ -114,14 +257,16 @@ return {
 			desc = "Icons",
 		},
 		{
-			"<leader><space>",
+			"<leader>e",
 			function()
 				Snacks.picker.explorer()
 			end,
 			desc = "Explorer",
 		},
 
-		-- find
+		-- ──────────────────────────────────────────────────────────────
+		-- Picker: find
+		-- ──────────────────────────────────────────────────────────────
 		{
 			"<leader>fb",
 			function()
@@ -155,26 +300,19 @@ return {
 			function()
 				Snacks.picker.recent()
 			end,
-			desc = "Recent",
-		},
-
-		-- git
-		{
-			"<leader>gc",
-			function()
-				Snacks.picker.git_log()
-			end,
-			desc = "Git Log",
+			desc = "Recent Files",
 		},
 		{
-			"<leader>gs",
+			"<leader>fp",
 			function()
-				Snacks.picker.git_status()
+				Snacks.picker.projects()
 			end,
-			desc = "Git Status",
+			desc = "Projects", -- NEW: jump between recent git projects
 		},
 
-		-- Grep
+		-- ──────────────────────────────────────────────────────────────
+		-- Picker: grep / search
+		-- ──────────────────────────────────────────────────────────────
 		{
 			"<leader>sb",
 			function()
@@ -201,11 +339,9 @@ return {
 			function()
 				Snacks.picker.grep_word()
 			end,
-			desc = "Visual selection or word",
+			desc = "Grep Word / Selection",
 			mode = { "n", "x" },
 		},
-
-		-- search
 		{
 			'<leader>s"',
 			function()
@@ -281,7 +417,7 @@ return {
 			function()
 				Snacks.picker.resume()
 			end,
-			desc = "Resume",
+			desc = "Resume Last Picker",
 		},
 		{
 			"<leader>sq",
@@ -297,7 +433,13 @@ return {
 			end,
 			desc = "LSP Symbols",
 		},
-
+		{
+			"<leader>sS",
+			function()
+				Snacks.picker.lsp_workspace_symbols()
+			end,
+			desc = "LSP Workspace Symbols", -- NEW
+		},
 		{
 			"<leader>uC",
 			function()
@@ -306,13 +448,22 @@ return {
 			desc = "Colorschemes",
 		},
 
-		-- LSP
+		-- ──────────────────────────────────────────────────────────────
+		-- LSP navigation via picker
+		-- ──────────────────────────────────────────────────────────────
 		{
 			"gd",
 			function()
 				Snacks.picker.lsp_definitions()
 			end,
-			desc = "Goto Definition",
+			desc = "Go to Definition",
+		},
+		{
+			"gD",
+			function()
+				Snacks.picker.lsp_declarations()
+			end,
+			desc = "Go to Declaration", -- NEW
 		},
 		{
 			"gr",
@@ -327,44 +478,69 @@ return {
 			function()
 				Snacks.picker.lsp_implementations()
 			end,
-			desc = "Goto Implementation",
+			desc = "Go to Implementation",
 		},
 		{
 			"gy",
 			function()
 				Snacks.picker.lsp_type_definitions()
 			end,
-			desc = "Goto T[y]pe Definition",
+			desc = "Go to Type Definition",
 		},
 		{
 			"<leader>le",
 			function()
 				Snacks.picker.diagnostics_buffer()
 			end,
-			desc = "Diagnostics Buffer",
+			desc = "Diagnostics (buffer)",
 		},
 		{
-			"<leader>le",
+			"<leader>lE",
 			function()
 				Snacks.picker.diagnostics()
 			end,
-			desc = "Diagnostics",
+			desc = "Diagnostics (workspace)",
+		},
+
+		-- ──────────────────────────────────────────────────────────────
+		-- Words (LSP reference jumping)
+		-- ──────────────────────────────────────────────────────────────
+		{
+			"]]",
+			function()
+				Snacks.words.jump(vim.v.count1)
+			end,
+			desc = "Next Reference",
+			mode = { "n", "t" },
+		},
+		{
+			"[[",
+			function()
+				Snacks.words.jump(-vim.v.count1)
+			end,
+			desc = "Prev Reference",
+			mode = { "n", "t" },
 		},
 	},
+
 	init = function()
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "VeryLazy",
 			callback = function()
-				-- Setup some globals for debugging (lazy-loaded)
+				-- ──────────────────────────────────────────────────────
+				-- Debug globals (accessible anywhere as dd(...) or bt())
+				-- ──────────────────────────────────────────────────────
 				_G.dd = function(...)
 					Snacks.debug.inspect(...)
 				end
 				_G.bt = function()
 					Snacks.debug.backtrace()
 				end
-				vim.print = _G.dd -- Override print to use snacks for `:=` command
+				vim.print = _G.dd -- := command uses snacks pretty printer
 
-				-- Create some toggle mappings
+				-- ──────────────────────────────────────────────────────
+				-- Toggle mappings (all under <leader>u)
+				-- ──────────────────────────────────────────────────────
 				Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
 				Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
 				Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
@@ -378,11 +554,16 @@ return {
 					.option("background", { off = "light", on = "dark", name = "Dark Background" })
 					:map("<leader>ub")
 				Snacks.toggle.inlay_hints():map("<leader>uh")
-				Snacks.toggle.indent():map("<leader>ug")
+				Snacks.toggle.indent():map("<leader>ug")  -- toggles snacks.indent guides
 				Snacks.toggle.dim():map("<leader>uD")
+				Snacks.toggle.scroll():map("<leader>uS")  -- NEW: toggle smooth scroll
+				Snacks.toggle.zen():map("<leader>uz")      -- NEW: toggle zen via toggle API
 			end,
 		})
 
+		-- ──────────────────────────────────────────────────────────────
+		-- Keep LSP aware of file renames done inside mini.files
+		-- ──────────────────────────────────────────────────────────────
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "MiniFilesActionRename",
 			callback = function(event)

@@ -3,10 +3,6 @@ return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		name = "which-key",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-		end,
 		config = function()
 			local wk = require("which-key")
 			local harpoon = require("harpoon")
@@ -104,10 +100,6 @@ return {
 					end,
 					desc = "🗑️ Delete Buffer",
 				},
-				{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-				{ "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
-				{ "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
-				{ "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
 				{ "[b", "<cmd>bprevious<cr>", desc = "Prev Buffer" },
 				{ "]b", "<cmd>bnext<cr>", desc = "Next Buffer" },
 				{ "<S-h>", "<cmd>bprevious<cr>", desc = "Prev Buffer" },
