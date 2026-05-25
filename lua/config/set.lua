@@ -89,3 +89,5 @@ vim.cmd("syntax enable")
 
 -- netrw
 vim.keymap.set("n", "g;", "<cmd>Ex<CR>")
+
+vim.o.winborder = "rounded"

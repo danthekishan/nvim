@@ -38,6 +38,11 @@ return {
 					prefix = "●",
 				},
 				severity_sort = true,
+				float = {
+					border = "rounded",
+					winblend = 15,
+					source = true,
+				},
 				signs = {
 					text = {
 						[vim.diagnostic.severity.ERROR] = "󰅙",
@@ -255,7 +260,9 @@ return {
 					-- Note: grn=rename, grr=references, gri=implementation, gra=code_action, K=hover are nvim 0.11+ defaults
 					map("<leader>la", vim.lsp.buf.code_action, "Code [A]ction")
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-					map("K", vim.lsp.buf.hover, "Hover Documentation")
+					map("K", function()
+						vim.lsp.buf.hover({ border = "rounded", max_width = 80 })
+					end, "Hover Documentation")
 					map("ge", vim.diagnostic.open_float, "Show Diagnostic")
 
 					-- Inlay hints toggle
