@@ -60,6 +60,21 @@ return {
 			},
 			-- Server configurations
 			servers = {
+				harper_ls = {
+					filetypes = { "markdown", "mdx" },
+					autostart = true,
+					settings = {
+						["harper-ls"] = {
+							linters = {
+								SpellCheck = true,
+								RepeatedWords = true,
+								LongSentences = true,
+								SentenceCapitalization = true,
+							},
+						},
+					},
+				},
+
 				clangd = {},
 
 				bashls = {},
@@ -79,6 +94,8 @@ return {
 						},
 					},
 				},
+
+				ols = {},
 
 				-- TypeScript
 				ts_ls = {
@@ -154,7 +171,7 @@ return {
 					},
 				},
 
-				elixirls = {},
+				expert = {},
 
 				emmet_ls = {
 					filetypes = {
@@ -176,6 +193,7 @@ return {
 			require("mason").setup()
 
 			local ensure_installed = {
+				"harper-ls",
 				"gopls",
 				"bashls",
 				"shfmt",
@@ -191,12 +209,14 @@ return {
 				"goimports",
 				"gofumpt",
 				"css-lsp",
-				"elixir-ls",
+				"exprt",
 				"svelte",
 				"clangd",
 				"clang-format",
 				"emmet_ls",
 				"zls",
+				"ols",
+				"expert",
 			}
 
 			require("mason-tool-installer").setup({
@@ -267,12 +287,49 @@ return {
 						})
 					end
 
-					-- Document highlight
-					if
-						opts.document_highlight.enabled
-						and client
-						and client:supports_method("textDocument/documentHighlight")
-					then
+				-- Harper grammar checker: add word to dictionary
+				if client and client.name == "harper_ls" then
+					local function harper_add(command_name)
+						local word = vim.fn.expand("<cword>")
+						if word == "" then
+							vim.notify("No word under cursor", vim.log.levels.WARN)
+							return
+						end
+						local uri = vim.uri_from_bufnr(0)
+						local clients = vim.lsp.get_clients({ bufnr = 0, name = "harper_ls" })
+						if #clients == 0 then
+							vim.notify("harper-ls not attached", vim.log.levels.WARN)
+							return
+						end
+						clients[1]:request("workspace/executeCommand", {
+							command = command_name,
+							arguments = { word, uri },
+						}, function(err)
+							if err then
+								vim.notify("Harper error: " .. err.message, vim.log.levels.ERROR)
+							else
+								vim.notify("Added '" .. word .. "' to Harper dictionary", vim.log.levels.INFO)
+							end
+						end)
+					end
+
+					map("zg", function()
+						harper_add("HarperAddToUserDict")
+					end, "Harper: add to user dict")
+					map("zG", function()
+						harper_add("HarperAddToWSDict")
+					end, "Harper: add to workspace dict")
+					map("zf", function()
+						harper_add("HarperAddToFileDict")
+					end, "Harper: add to file dict")
+				end
+
+				-- Document highlight
+				if
+					opts.document_highlight.enabled
+					and client
+					and client:supports_method("textDocument/documentHighlight")
+				then
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = bufnr,
 							callback = vim.lsp.buf.document_highlight,
@@ -448,7 +505,8 @@ return {
 				surface = { "mix" },
 				c = { "clang-format" },
 				sh = { "shfmt" },
-        zig = { "zigfmt" }
+				zig = { "zigfmt" },
+				odin = { "odinfmt" },
 			},
 		},
 	},
