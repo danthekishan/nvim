@@ -4,45 +4,45 @@ return {
 	{
 		"folke/lazydev.nvim",
 		event = { "BufReadPost", "BufNewFile" },
-		ft = "lua", -- only load on lua files
+		ft = "lua",
 		opts = {
 			library = {
-				-- Load luvit types when the `vim.uv` word is found
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
 			},
 		},
 	},
-	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 
-	-- lsp config
+	{ "Bilal2453/luvit-meta", lazy = true },
+
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPost", "BufNewFile" },
-		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+
 		dependencies = {
 			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"saghen/blink.cmp",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			"saghen/blink.cmp",
 			{ "j-hui/fidget.nvim", opts = {} },
 		},
 
 		opts = {
-			-- Diagnostic configuration
 			diagnostics = {
 				underline = true,
 				update_in_insert = false,
+				severity_sort = true,
+
 				virtual_text = {
 					spacing = 4,
 					source = "if_many",
 					prefix = "●",
 				},
-				severity_sort = true,
+
 				float = {
 					border = "rounded",
-					winblend = 15,
 					source = true,
+					winblend = 15,
 				},
+
 				signs = {
 					text = {
 						[vim.diagnostic.severity.ERROR] = "󰅙",
@@ -52,68 +52,35 @@ return {
 					},
 				},
 			},
-			-- LSP feature toggles
+
 			inlay_hints = {
 				enabled = true,
 				exclude = { "vue" },
 			},
+
 			codelens = {
 				enabled = false,
 			},
+
 			document_highlight = {
 				enabled = true,
 			},
-			-- Server configurations
+
 			servers = {
 				harper_ls = {
-					filetypes = { "markdown", "mdx" },
-					autostart = true,
-					settings = {
-						["harper-ls"] = {
-							linters = {
-								SpellCheck = true,
-								RepeatedWords = true,
-								LongSentences = true,
-								SentenceCapitalization = true,
-							},
-						},
-					},
+					autostart = false,
 				},
 
 				clangd = {},
-
 				bashls = {},
-
-				-- Python
-				pyright = {
-					settings = {
-						pyright = {
-							disableOrganizeImports = true, -- Using Ruff
-							typeCheckingMode = "standard",
-							diagnosticMode = "workspace",
-						},
-						python = {
-							analysis = {
-								exclude = { "cdk.out" },
-							},
-						},
-					},
-				},
-
+				pyright = {},
 				ols = {},
-
-				-- TypeScript
-				ts_ls = {
-					alt_name = "ts_ls",
-				},
-
+				ts_ls = {},
 				eslint = {},
-
 				zls = {},
+				expert = {},
 
-				-- Go
 				gopls = {
-					autostart = true,
 					settings = {
 						gopls = {
 							analyses = {
@@ -125,25 +92,30 @@ return {
 					},
 				},
 
-				-- HTML
-				html = {
-					filetypes = { "html", "javascriptreact", "typescript.tsx", "typescriptreact" },
+				pyright = {
 					settings = {
-						html = {
-							format = {
-								templating = true,
-								wrapLineLength = 120,
-								wrapAttributes = "auto",
-							},
-							hover = {
-								documentation = true,
-								references = true,
+						pyright = {
+							disableOrganizeImports = true,
+							typeCheckingMode = "standard",
+							diagnosticMode = "workspace",
+						},
+
+						python = {
+							analysis = {
+								exclude = { "cdk.out" },
 							},
 						},
 					},
 				},
 
-				-- CSS
+				html = {
+					filetypes = {
+						"html",
+						"javascriptreact",
+						"typescriptreact",
+					},
+				},
+
 				cssls = {
 					settings = {
 						css = {
@@ -155,15 +127,18 @@ return {
 					},
 				},
 
-				-- Lua
 				lua_ls = {
 					settings = {
 						Lua = {
-							runtime = { version = "LuaJIT" },
+							runtime = {
+								version = "LuaJIT",
+							},
+
 							workspace = {
 								checkThirdParty = false,
 								library = vim.api.nvim_get_runtime_file("lua", true),
 							},
+
 							hint = {
 								enable = true,
 								setType = false,
@@ -175,8 +150,6 @@ return {
 						},
 					},
 				},
-
-				expert = {},
 
 				emmet_ls = {
 					filetypes = {
@@ -197,198 +170,86 @@ return {
 		config = function(_, opts)
 			require("mason").setup()
 
-			local ensure_installed = {
-				"harper-ls",
-				"gopls",
-				"bashls",
-				"shfmt",
-				"shellcheck",
-				"eslint",
-				"lua_ls",
-				"pyright",
-				"vtsls",
-				"html-lsp",
-				"ruff",
-				"stylua",
-				"prettier",
-				"goimports",
-				"gofumpt",
-				"css-lsp",
-				"exprt",
-				"svelte",
-				"clangd",
-				"clang-format",
-				"emmet_ls",
-				"zls",
-				"ols",
-				"expert",
-			}
-
 			require("mason-tool-installer").setup({
-				ensure_installed = ensure_installed,
+				ensure_installed = {
+					"harper-ls",
+					"gopls",
+					"bashls",
+					"shfmt",
+					"shellcheck",
+					"eslint",
+					"lua_ls",
+					"pyright",
+					"vtsls",
+					"html-lsp",
+					"ruff",
+					"stylua",
+					"prettier",
+					"goimports",
+					"gofumpt",
+					"css-lsp",
+					"svelte",
+					"clangd",
+					"clang-format",
+					"emmet_ls",
+					"zls",
+					"ols",
+					"expert",
+				},
 			})
-
-			-- LSP attach configuration
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-				callback = function(event)
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					local bufnr = event.buf
-
-					local map = function(keys, func, desc)
-						vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
-					end
-
-					-- Custom rename/replace utilities
-					map("gp", function()
-						lsp_utils.replace_references({ confirm = false })
-					end, "Replace references")
-
-					map("gP", function()
-						lsp_utils.replace_references({ confirm = true })
-					end, "Replace references (confirm)")
-
-					map("gw", function()
-						lsp_utils.interactive_replace()
-					end, "Replace (interactive)")
-
-					map("gW", function()
-						lsp_utils.replace_references({ preview_only = true })
-					end, "Replace (preview)")
-
-					-- LSP actions
-					-- Note: grn=rename, grr=references, gri=implementation, gra=code_action, K=hover are nvim 0.11+ defaults
-					map("<leader>la", vim.lsp.buf.code_action, "Code [A]ction")
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-					map("K", function()
-						vim.lsp.buf.hover({ border = "rounded", max_width = 80 })
-					end, "Hover Documentation")
-					map("ge", vim.diagnostic.open_float, "Show Diagnostic")
-
-					-- Inlay hints toggle
-					if opts.inlay_hints.enabled then
-						map("<leader>lh", function()
-							vim.lsp.inlay_hint.enable(
-								not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
-								{ bufnr = bufnr }
-							)
-						end, "Toggle Inlay [H]ints")
-					end
-
-					-- Enable inlay hints if supported and not excluded
-					if
-						opts.inlay_hints.enabled
-						and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[bufnr].filetype)
-						and client
-						and client:supports_method("textDocument/inlayHint")
-					then
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					end
-
-					-- Codelens
-					if opts.codelens.enabled and client and client:supports_method("textDocument/codeLens") then
-						vim.lsp.codelens.refresh()
-						vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-							buffer = bufnr,
-							callback = vim.lsp.codelens.refresh,
-						})
-					end
-
-				-- Harper grammar checker: add word to dictionary
-				if client and client.name == "harper_ls" then
-					local function harper_add(command_name)
-						local word = vim.fn.expand("<cword>")
-						if word == "" then
-							vim.notify("No word under cursor", vim.log.levels.WARN)
-							return
-						end
-						local uri = vim.uri_from_bufnr(0)
-						local clients = vim.lsp.get_clients({ bufnr = 0, name = "harper_ls" })
-						if #clients == 0 then
-							vim.notify("harper-ls not attached", vim.log.levels.WARN)
-							return
-						end
-						clients[1]:request("workspace/executeCommand", {
-							command = command_name,
-							arguments = { word, uri },
-						}, function(err)
-							if err then
-								vim.notify("Harper error: " .. err.message, vim.log.levels.ERROR)
-							else
-								vim.notify("Added '" .. word .. "' to Harper dictionary", vim.log.levels.INFO)
-							end
-						end)
-					end
-
-					map("zg", function()
-						harper_add("HarperAddToUserDict")
-					end, "Harper: add to user dict")
-					map("zG", function()
-						harper_add("HarperAddToWSDict")
-					end, "Harper: add to workspace dict")
-					map("zf", function()
-						harper_add("HarperAddToFileDict")
-					end, "Harper: add to file dict")
-				end
-
-				-- Document highlight
-				if
-					opts.document_highlight.enabled
-					and client
-					and client:supports_method("textDocument/documentHighlight")
-				then
-						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-							buffer = bufnr,
-							callback = vim.lsp.buf.document_highlight,
-						})
-						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-							buffer = bufnr,
-							callback = vim.lsp.buf.clear_references,
-						})
-					end
-				end,
-			})
-
-			-- Cleanup on LSP detach
-			vim.api.nvim_create_autocmd("LspDetach", {
-				group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
-				callback = function(event)
-					vim.lsp.buf.clear_references()
-					vim.api.nvim_clear_autocmds({ buffer = event.buf, group = "lsp-attach" })
-				end,
-			})
-
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			vim.diagnostic.config(opts.diagnostics)
 
-			require("mason-lspconfig").setup({
-				ensure_installed = {},
-				automatic_installation = false,
-				handlers = {
-					function(server_name)
-						if server_name == "rust_analyzer" then
-							return
-						end
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-						local server = opts.servers[server_name] or {}
-						local name = server["alt_name"] or server_name
+			for name, server in pairs(opts.servers) do
+				vim.lsp.config(
+					name,
+					vim.tbl_deep_extend("force", server, {
+						capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {}),
+					})
+				)
 
-						local server_opts = {
-							cmd = server.cmd,
-							settings = server.settings,
-							filetypes = server.filetypes,
-							capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {}),
-							autostart = server.autostart or true,
-						}
+				if server.autostart ~= false then
+					vim.lsp.enable(name)
+				end
+			end
 
-						if server_name == "ts_ls" then
-							server_opts.root_dir = require("lspconfig.util").root_pattern(".git")
-						end
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 
-						require("lspconfig")[name].setup(server_opts)
-					end,
-				},
+				callback = function(event)
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+					local bufnr = event.buf
+
+					local map = function(keys, func, desc)
+						vim.keymap.set("n", keys, func, {
+							buffer = bufnr,
+							desc = "LSP: " .. desc,
+						})
+					end
+
+					map("gp", function()
+						lsp_utils.replace_references({
+							confirm = false,
+						})
+					end, "Replace refs")
+
+					map("gw", lsp_utils.interactive_replace, "Replace interactive")
+
+					map("<leader>la", vim.lsp.buf.code_action, "Code Action")
+
+					map("K", function()
+						vim.lsp.buf.hover({
+							border = "rounded",
+						})
+					end, "Hover")
+
+					if opts.inlay_hints.enabled and client and client:supports_method("textDocument/inlayHint") then
+						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+					end
+				end,
 			})
 		end,
 	},
