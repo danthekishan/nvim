@@ -236,6 +236,9 @@ return {
 						})
 					end, "Replace refs")
 
+					map("ge", vim.diagnostic.open_float, "Show Diagnostic")
+					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
 					map("gw", lsp_utils.interactive_replace, "Replace interactive")
 
 					map("<leader>la", vim.lsp.buf.code_action, "Code Action")
