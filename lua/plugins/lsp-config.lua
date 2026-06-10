@@ -72,11 +72,11 @@ return {
 				},
 
 				clangd = {},
-				bashls = {},
+				-- bashls = {},
 				pyright = {},
 				ols = {},
 				ts_ls = {},
-				eslint = {},
+				-- eslintd= {},
 				zls = {},
 				expert = {},
 
@@ -127,43 +127,43 @@ return {
 					},
 				},
 
-				lua_ls = {
-					settings = {
-						Lua = {
-							runtime = {
-								version = "LuaJIT",
-							},
+				-- lua_ls = {
+				-- 	settings = {
+				-- 		Lua = {
+				-- 			runtime = {
+				-- 				version = "LuaJIT",
+				-- 			},
+				--
+				-- 			workspace = {
+				-- 				checkThirdParty = false,
+				-- 				library = vim.api.nvim_get_runtime_file("lua", true),
+				-- 			},
+				--
+				-- 			hint = {
+				-- 				enable = true,
+				-- 				setType = false,
+				-- 				paramType = true,
+				-- 				paramName = "Disable",
+				-- 				semicolon = "Disable",
+				-- 				arrayIndex = "Disable",
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
 
-							workspace = {
-								checkThirdParty = false,
-								library = vim.api.nvim_get_runtime_file("lua", true),
-							},
-
-							hint = {
-								enable = true,
-								setType = false,
-								paramType = true,
-								paramName = "Disable",
-								semicolon = "Disable",
-								arrayIndex = "Disable",
-							},
-						},
-					},
-				},
-
-				emmet_ls = {
-					filetypes = {
-						"html",
-						"css",
-						"scss",
-						"javascript",
-						"javascriptreact",
-						"typescript",
-						"typescriptreact",
-						"vue",
-						"svelte",
-					},
-				},
+				-- emmet_ls = {
+				-- 	filetypes = {
+				-- 		"html",
+				-- 		"css",
+				-- 		"scss",
+				-- 		"javascript",
+				-- 		"javascriptreact",
+				-- 		"typescript",
+				-- 		"typescriptreact",
+				-- 		"vue",
+				-- 		"svelte",
+				-- 	},
+				-- },
 			},
 		},
 
@@ -174,11 +174,11 @@ return {
 				ensure_installed = {
 					"harper-ls",
 					"gopls",
-					"bashls",
+					-- "bashls",
 					"shfmt",
 					"shellcheck",
-					"eslint",
-					"lua_ls",
+					-- "eslintd",
+					-- "lua_ls",
 					"pyright",
 					"vtsls",
 					"html-lsp",
@@ -188,10 +188,10 @@ return {
 					"goimports",
 					"gofumpt",
 					"css-lsp",
-					"svelte",
+					-- "svelte",
 					"clangd",
 					"clang-format",
-					"emmet_ls",
+					-- "emmet_ls",
 					"zls",
 					"ols",
 					"expert",

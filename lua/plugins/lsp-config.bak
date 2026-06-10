@@ -82,7 +82,7 @@ return {
 
 				clangd = {},
 
-				bashls = {},
+				-- bashls = {},
 
 				-- Python
 				pyright = {
@@ -200,7 +200,7 @@ return {
 			local ensure_installed = {
 				"harper-ls",
 				"gopls",
-				"bashls",
+				-- "bashls",
 				"shfmt",
 				"shellcheck",
 				"eslint",
