@@ -1,11 +1,10 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
 	lazy = false,
-	main = "nvim-treesitter.config",
 	build = ":TSUpdate",
-	opts = {
-		indent = { enable = true },
-		ensure_installed = {
+	config = function()
+		local ensure_installed = {
 			"bash",
 			"c",
 			"css",
@@ -36,9 +35,24 @@ return {
 			"vimdoc",
 			"vue",
 			"yaml",
-		},
-		highlight = {
-			enable = true,
-		},
-	},
+		}
+
+		require("nvim-treesitter").install(ensure_installed)
+
+		-- Start treesitter highlighting (and indentation) whenever a parser
+		-- is available for the buffer's filetype. The `main` branch no longer
+		-- enables this via opts -- it must be started per-buffer.
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("treesitter_start", { clear = true }),
+			callback = function(args)
+				local ft = vim.bo[args.buf].filetype
+				local lang = vim.treesitter.language.get_lang(ft)
+				if not (lang and vim.treesitter.language.add(lang)) then
+					return
+				end
+				vim.treesitter.start(args.buf, lang)
+				vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end,
+		})
+	end,
 }
