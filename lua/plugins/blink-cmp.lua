@@ -15,6 +15,7 @@ return {
 			["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
 			["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
 			["<Tab>"] = { "accept", "fallback" },
+			["<CR>"] = { "accept", "fallback" },
 			["<S-Tab>"] = { "fallback" },
 		},
 
@@ -25,7 +26,7 @@ return {
 		completion = {
 			documentation = {
 				auto_show = true,
-				auto_show_delay_ms = 200,
+				auto_show_delay_ms = 50,
 				treesitter_highlighting = true,
 				window = {
 					min_width = 10,

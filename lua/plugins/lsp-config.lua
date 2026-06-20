@@ -73,12 +73,41 @@ return {
 
 				clangd = {},
 				-- bashls = {},
-				pyright = {},
 				ols = {},
-				ts_ls = {},
+
+				-- ty: Astral's fast Rust type checker (preview). Owns Python
+				-- diagnostics in the hybrid setup. Toggle live with <leader>uy.
+				ty = {},
 				-- eslintd= {},
 				zls = {},
 				expert = {},
+
+				vtsls = {
+					settings = {
+						complete_function_calls = true,
+						vtsls = {
+							enableMoveToFileCodeAction = true,
+							autoUseWorkspaceTsdk = true,
+							experimental = {
+								completion = {
+									enableServerSideFuzzyMatch = true,
+								},
+							},
+						},
+						typescript = {
+							updateImportsOnFileMove = { enabled = "always" },
+							suggest = { completeFunctionCalls = true },
+							inlayHints = {
+								enumMemberValues = { enabled = true },
+								functionLikeReturnTypes = { enabled = true },
+								parameterNames = { enabled = "literals" },
+								parameterTypes = { enabled = true },
+								propertyDeclarationTypes = { enabled = true },
+								variableTypes = { enabled = false },
+							},
+						},
+					},
+				},
 
 				gopls = {
 					settings = {
@@ -88,20 +117,41 @@ return {
 							},
 							staticcheck = true,
 							gofumpt = true,
+							hints = {
+								assignVariableTypes = true,
+								compositeLiteralFields = true,
+								compositeLiteralTypes = true,
+								constantValues = true,
+								functionTypeParameters = true,
+								parameterNames = true,
+								rangeVariableTypes = true,
+							},
 						},
 					},
 				},
 
 				pyright = {
+					-- ty-solo by default; toggle pyright on with <leader>up
+					-- as a completion/auto-import fallback if ty falls short.
+					autostart = false,
 					settings = {
 						pyright = {
+							-- ruff handles import organization
 							disableOrganizeImports = true,
-							typeCheckingMode = "standard",
-							diagnosticMode = "workspace",
 						},
 
 						python = {
 							analysis = {
+								-- Hybrid: ty owns type-check diagnostics, so pyright
+								-- runs purely as a completion/auto-import/hover engine.
+								-- "off" avoids duplicate diagnostics; completions and
+								-- auto-import are unaffected by typeCheckingMode.
+								typeCheckingMode = "off",
+								diagnosticMode = "openFilesOnly",
+								autoImportCompletions = true,
+								autoSearchPaths = true,
+								useLibraryCodeForTypes = true,
+								importFormat = "absolute",
 								exclude = { "cdk.out" },
 							},
 						},
@@ -180,6 +230,7 @@ return {
 					-- "eslintd",
 					-- "lua_ls",
 					"pyright",
+					"ty",
 					"vtsls",
 					"html-lsp",
 					"ruff",

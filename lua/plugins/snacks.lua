@@ -558,6 +558,30 @@ return {
 				Snacks.toggle.dim():map("<leader>uD")
 				Snacks.toggle.scroll():map("<leader>uS")  -- NEW: toggle smooth scroll
 				Snacks.toggle.zen():map("<leader>uz")      -- NEW: toggle zen via toggle API
+				Snacks.toggle
+					.new({
+						id = "ty_lsp",
+						name = "ty (Python type checker)",
+						get = function()
+							return #vim.lsp.get_clients({ name = "ty" }) > 0
+						end,
+						set = function(state)
+							vim.lsp.enable("ty", state)
+						end,
+					})
+					:map("<leader>uy")
+				Snacks.toggle
+					.new({
+						id = "pyright_lsp",
+						name = "pyright (completion fallback)",
+						get = function()
+							return #vim.lsp.get_clients({ name = "pyright" }) > 0
+						end,
+						set = function(state)
+							vim.lsp.enable("pyright", state)
+						end,
+					})
+					:map("<leader>up")
 			end,
 		})
 
